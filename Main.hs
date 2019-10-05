@@ -11,9 +11,10 @@ allRollsNoN t = case t of
   [] -> [ [] ]
   (chosen, v):t -> do
     roll <- allRollsNoN t
-    d    <- rollList
+    d    <- rollList (chosen, v)
     [ d:roll ]
-          where rollList = if chosen then [v] else [ 1..6 ]
+          where rollList (chosen, v)
+                    = if chosen then [v] else [ 1..6 ]
 
 main =
   let diceChoices = [ False, True, True, False, False ]
