@@ -11,10 +11,10 @@ pop ([], _:_) = error "Invariant violated: missing choice"
 allRolls :: (DiceChoice, DiceVals)
          -> Integer
          -> [ (DiceVals, Integer) ]
-allRolls (choices, vs) n = case pop (choices, vs) of
+allRolls t n = case pop t of
   Nothing -> [ ([], n-1) ]
-  Just ((chosen, v), (choices, vs)) ->
-    allRolls (choices, vs) (error "Didn't expect to use") >>=
+  Just ((chosen, v), t) ->
+    allRolls t (error "Didn't expect to use") >>=
         \(roll,_) -> [ (d:roll,  n-1) | d <- rollList ]
           where rollList = if chosen then [v] else [ 1..6 ]
 
