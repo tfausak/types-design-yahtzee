@@ -1,10 +1,7 @@
+import Data.List (uncons)
+
 type DiceVals   = [ Integer ]
 type DiceTurn  = [(Bool, Integer)]
-
-pop :: DiceTurn
-    -> Maybe ((Bool, Integer), DiceTurn)
-pop [] = Nothing
-pop (a:as) = Just (a, as)
 
 allRolls :: DiceTurn
          -> Integer
@@ -12,7 +9,7 @@ allRolls :: DiceTurn
 allRolls t n = [ (vals, n-1) | vals <- allRollsNoN t ]
 
 allRollsNoN :: DiceTurn -> [ DiceVals ]
-allRollsNoN t = case pop t of
+allRollsNoN t = case uncons t of
   Nothing -> [ [] ]
   Just ((chosen, v), t) ->
     allRollsNoN t >>=
