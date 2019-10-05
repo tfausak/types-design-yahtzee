@@ -1,19 +1,20 @@
 type DiceChoice = [ Bool ]
 type DiceVals   = [ Integer ]
+type DiceTurn  = (DiceChoice, DiceVals)
 
-pop :: (DiceChoice, DiceVals)
-    -> Maybe ((Bool, Integer), (DiceChoice, DiceVals))
+pop :: DiceTurn
+    -> Maybe ((Bool, Integer), DiceTurn)
 pop ([], []) = Nothing
 pop (chosen:choices, v:vs) = Just ((chosen, v), (choices, vs))
 pop (_:_, []) = error "Invariant violated: missing val"
 pop ([], _:_) = error "Invariant violated: missing choice"
 
-allRolls :: (DiceChoice, DiceVals)
+allRolls :: DiceTurn
          -> Integer
          -> [ (DiceVals, Integer) ]
 allRolls t n = [ (vals, n-1) | vals <- allRollsNoN t ]
 
-allRollsNoN :: (DiceChoice, DiceVals) -> [ DiceVals ]
+allRollsNoN :: DiceTurn -> [ DiceVals ]
 allRollsNoN t = case pop t of
   Nothing -> [ [] ]
   Just ((chosen, v), t) ->
