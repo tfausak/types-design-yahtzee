@@ -1,5 +1,3 @@
-import Data.List (uncons)
-
 type DiceVals   = [ Integer ]
 type DiceTurn  = [(Bool, Integer)]
 
@@ -9,9 +7,9 @@ allRolls :: DiceTurn
 allRolls t n = [ (vals, n-1) | vals <- allRollsNoN t ]
 
 allRollsNoN :: DiceTurn -> [ DiceVals ]
-allRollsNoN t = case uncons t of
-  Nothing -> [ [] ]
-  Just ((chosen, v), t) ->
+allRollsNoN t = case t of
+  [] -> [ [] ]
+  (chosen, v):t ->
     allRollsNoN t >>=
         \roll -> [ d:roll | d <- rollList ]
           where rollList = if chosen then [v] else [ 1..6 ]
