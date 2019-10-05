@@ -6,6 +6,8 @@ allRolls :: DiceChoice -> DiceState -> [ DiceState ]
 allRolls [] ([], n) = [ ([], n-1) ]
 allRolls [] (_:_, _) =
   error "Invariant violated: choices must be same length as vals"
+allRolls (_:_) ([], _) =
+  error "Invariant violated: choices must be same length as vals"
 allRolls (chosen:choices) (v:vs, n) =
     allRolls choices (vs, n-1) >>=
         \(roll,_) -> [ (d:roll,  n-1) | d <- rollList ]
