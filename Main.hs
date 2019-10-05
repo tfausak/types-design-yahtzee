@@ -6,15 +6,8 @@ allRolls :: DiceTurn
          -> [ (DiceVals, Integer) ]
 allRolls t n = [ (vals, n-1) | vals <- allRollsNoN t ]
 
-allRollsNoN :: DiceTurn -> [ DiceVals ]
-allRollsNoN t = case t of
-  [] -> [ [] ]
-  (chosen, v):t -> do
-    roll <- allRollsNoN t
-    d    <- rollList (chosen, v)
-    [ d:roll ]
-          where rollList (chosen, v)
-                    = if chosen then [v] else [ 1..6 ]
+allRollsNoN =
+    mapM (\(chosen, v) -> if chosen then [v] else [ 1..6 ])
 
 main =
   let diceChoices = [ False, True, True, False, False ]
