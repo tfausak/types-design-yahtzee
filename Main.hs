@@ -9,9 +9,10 @@ allRolls t n = [ (vals, n-1) | vals <- allRollsNoN t ]
 allRollsNoN :: DiceTurn -> [ DiceVals ]
 allRollsNoN t = case t of
   [] -> [ [] ]
-  (chosen, v):t ->
-    allRollsNoN t >>=
-        \roll -> [ d:roll | d <- rollList ]
+  (chosen, v):t -> do
+    roll <- allRollsNoN t
+    d    <- rollList
+    [ d:roll ]
           where rollList = if chosen then [v] else [ 1..6 ]
 
 main =
