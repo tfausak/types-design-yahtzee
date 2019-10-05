@@ -1,6 +1,5 @@
 type DiceChoice = [ Bool ]
 type DiceVals   = [ Integer ]
-type DiceState = (DiceVals, Integer)
 
 pop :: DiceChoice
     -> DiceVals
@@ -10,7 +9,9 @@ pop (chosen:choices) (v:vs) = Just ((chosen, v), (choices, vs))
 pop (_:_) [] = error "Invariant violated: missing val"
 pop [] (_:_) = error "Invariant violated: missing choice"
 
-allRolls :: DiceChoice -> DiceState -> [ DiceState ]
+allRolls :: DiceChoice
+         -> (DiceVals, Integer)
+         -> [ (DiceVals, Integer) ]
 allRolls choices (vs, n) = case pop choices vs of
   Nothing -> [ ([], n-1) ]
   Just ((chosen, v), (choices, vs)) ->
